@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
+        <Property name="LOG_JSON_PATTERN">%m%n</Property>
+        <Property name="APP_LOG_ROOT">/tmp/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="appLog-info"
+                     fileName="${APP_LOG_ROOT}/logs/info/info.log"
+                     filePattern="${APP_LOG_ROOT}/logs/info/info-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="appLog-error"
+                     fileName="${APP_LOG_ROOT}/logs/error/error.log"
+                     filePattern="${APP_LOG_ROOT}/logs/error/error-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="appLog-json"
+                     fileName="${APP_LOG_ROOT}/logs/json/json.log"
+                     filePattern="${APP_LOG_ROOT}/logs/json/json-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_JSON_PATTERN}"/>
+<!--            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>-->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <Logger name="json" additivity="false">
+            <AppenderRef ref="appLog-json"/>
+        </Logger>
+        <Root level="TRACE">
+            <AppenderRef level="INFO" ref="appLog-info"/>
+            <AppenderRef level="ERROR" ref="appLog-error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
