@@ -46,9 +46,12 @@
 
     </Appenders>
     <Loggers>
+<!--        get logger with name in java code-->
         <Logger name="json" additivity="false">
             <AppenderRef ref="appLog-json"/>
         </Logger>
+
+<!--        default logger when logger created by clazz-->
         <Root level="TRACE">
             <AppenderRef level="INFO" ref="appLog-info"/>
             <AppenderRef level="ERROR" ref="appLog-error"/>
